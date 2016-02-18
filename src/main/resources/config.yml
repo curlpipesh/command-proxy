@@ -1,1 +1,3 @@
-proxied-commands: ["pex", "permissionsex", "op", "deop", "promote", "prom", "rankup", "demote", "dem", "rankdown"]
+proxied-commands: ["pex", "permissionsex", "op", "deop", "promote", "prom", "rankup", "demote", "dem", "rankdown", "pl", "plugins", "?"]
+
+block-colon: true

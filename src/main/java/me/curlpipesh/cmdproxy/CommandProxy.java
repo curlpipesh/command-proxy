@@ -16,10 +16,12 @@ import java.util.stream.Collectors;
  */
 public class CommandProxy extends JavaPlugin {
     private final Collection<String> proxiedCommands = new ArrayList<>();
+    private boolean blockColon = true;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
+        blockColon = getConfig().getBoolean("block-colon");
         proxiedCommands.addAll(getConfig().getStringList("proxied-commands").stream().map(String::toLowerCase).collect(Collectors.<String>toList()));
         getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
@@ -30,6 +32,12 @@ public class CommandProxy extends JavaPlugin {
                 if(proxiedCommands.contains(cmd.toLowerCase())) {
                     event.getPlayer().sendMessage(ChatColor.RED + "Sorry, only the console can do that.");
                     event.setCancelled(true);
+                }
+                if(blockColon) {
+                    if(cmd.contains(":")) {
+                        event.getPlayer().sendMessage(ChatColor.RED + "Sorry, :commands are blocked.");
+                        event.setCancelled(true);
+                    }
                 }
             }
         }, this);
